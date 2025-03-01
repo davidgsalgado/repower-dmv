@@ -1,9 +1,16 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useState, useEffect } from "react";
 import Select from "react-select";
+import { prisma } from "~/db.server";
 
 import { CONTRACTORS, STATES, SERVICES } from "../data";
 import { State, Service, Contractor, Address } from "../types";
+import { useLoaderData } from "@remix-run/react";
+
+export async function loader() {
+  const contractors = await prisma.contractor.findMany();
+  return contractors;
+}
 
 export const meta: MetaFunction = () => [
   { title: "Contractor List | re:Power DMV" },
